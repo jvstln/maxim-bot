@@ -1,4 +1,4 @@
-import { createTempEmail, extractOtp } from "./emailUtils";
+import { createTempEmail, extractOtp } from "./src/lib/emailUtils";
 
 async function run() {
   console.log("Testing createTempEmail...");
