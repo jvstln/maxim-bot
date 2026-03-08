@@ -1,13 +1,14 @@
 import { drizzle } from "drizzle-orm/libsql";
+
+import { credentialsTable } from "./schema";
+import { isNull, lte, or } from "drizzle-orm";
 import { createClient } from "@libsql/client";
 
 const client = createClient({
   url: process.env.DB_FILE_NAME || "file:./local.db",
 });
-const db = drizzle({ client });
 
-import { credentialsTable } from "./schema";
-import { eq, gt, gte, isNull, lte, or } from "drizzle-orm";
+export const db = drizzle({ client, casing: "snake_case" });
 
 export async function saveCredential({
   address,
@@ -27,7 +28,7 @@ export async function saveCredential({
     })
     .onConflictDoUpdate({
       target: credentialsTable.address,
-      set: { last_used: new Date() },
+      set: { lastUsed: new Date() },
     });
 }
 
@@ -41,8 +42,9 @@ export async function getUnusedCredentials() {
     .from(credentialsTable)
     .where(
       or(
-        isNull(credentialsTable.last_used),
-        lte(credentialsTable.last_used, yesterday),
+        isNull(credentialsTable.lastUsed),
+        lte(credentialsTable.lastUsed, yesterday),
       ),
     );
 }
+export type Credential = typeof credentialsTable.$inferSelect;

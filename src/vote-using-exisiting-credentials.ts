@@ -1,13 +1,16 @@
-import type { Credential } from "./lib/credentials-helper";
+import type { Credential } from "./lib/db";
 import { saveCredential } from "./lib/db";
-import { browserConfig, puppeteer } from "./lib/puppeteer";
+import type { Browser } from "puppeteer";
 
-export async function voteUsingExisitingCredentials(credential: Credential) {
+export async function voteUsingExisitingCredentials(
+  browser: Browser,
+  credential: Credential,
+) {
   const { address, password } = credential;
-  const browser = await puppeteer.launch(browserConfig);
+  const context = await browser.createBrowserContext();
 
   try {
-    const page = await browser.newPage();
+    const page = await context.newPage();
     page.setDefaultTimeout(60_000);
 
     console.log(">> Navigating to voting page...");
@@ -33,10 +36,10 @@ export async function voteUsingExisitingCredentials(credential: Credential) {
 
     // Update the last_used property
     await saveCredential(credential);
-    console.log(`Credential for ${address} updated`);
+    console.log(`✅✅✅ Credential for ${address} updated`);
 
     return { address, password };
   } finally {
-    await browser.close();
+    await context.close();
   }
 }

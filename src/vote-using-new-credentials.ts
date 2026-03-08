@@ -1,12 +1,12 @@
 import { saveCredential } from "./lib/db";
 import { createTempEmail, extractOtp } from "./lib/emailUtils";
 import { browserConfig, puppeteer } from "./lib/puppeteer";
+import type { Browser } from "puppeteer";
 
-export async function vote() {
-  const browser = await puppeteer.launch(browserConfig);
-
+export async function vote(browser: Browser) {
+  const context = await browser.createBrowserContext();
   try {
-    const page = await browser.newPage();
+    const page = await context.newPage();
     page.setDefaultTimeout(60_000);
     console.log(">> Navigating to voting page...");
     await page.goto("https://covergirl.maxim.com/p/X29HF9S", {
@@ -47,10 +47,10 @@ export async function vote() {
 
     // If successful, save credentials
     await saveCredential({ address, password, token });
-    console.log("Credentials saved to DB");
+    console.log("✅✅✅ Credentials saved to DB");
 
     return { address, password, token };
   } finally {
-    await browser.close();
+    await context.close();
   }
 }
