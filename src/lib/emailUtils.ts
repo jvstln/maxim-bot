@@ -26,7 +26,39 @@ function generateRealisticUsername(): string {
     "noah",
     "liam",
     "sophia",
+    "alexander",
+    "mia",
+    "ethan",
+    "isabella",
+    "mason",
+    "charlotte",
+    "logan",
+    "amelia",
+    "lucas",
+    "harper",
+    "jackson",
+    "evelyn",
+    "aiden",
+    "abigail",
+    "elijah",
+    "benjamin",
+    "grace",
+    "ryan",
+    "chloe",
+    "nathan",
+    "victoria",
+    "caleb",
+    "aria",
+    "christian",
+    "lily",
+    "hunter",
+    "aubrey",
+    "isaac",
+    "zoey",
+    "luke",
+    "penelope",
   ];
+
   const lastNames = [
     "smith",
     "johnson",
@@ -39,11 +71,53 @@ function generateRealisticUsername(): string {
     "rodriguez",
     "martinez",
     "doe",
+    "hernandez",
+    "lopez",
+    "gonzalez",
+    "wilson",
+    "anderson",
+    "thomas",
+    "taylor",
+    "moore",
+    "jackson",
+    "martin",
+    "lee",
+    "perez",
+    "thompson",
+    "white",
+    "harris",
+    "sanchez",
+    "clark",
+    "ramirez",
+    "lewis",
+    "robinson",
+    "walker",
+    "young",
+    "allen",
+    "king",
+    "wright",
+    "scott",
+    "torres",
+    "nguyen",
+    "hill",
+    "flores",
+    "green",
+    "adams",
+    "nelson",
+    "baker",
+    "hall",
+    "rivera",
+    "campbell",
   ];
 
   const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
   const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
   const number = Math.floor(Math.random() * 9000) + 1000;
+
+  // 50% chance to put the last name first
+  if (Math.random() > 0.5) {
+    return `${lastName}${firstName}${number}`;
+  }
 
   return `${firstName}${lastName}${number}`;
 }

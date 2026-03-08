@@ -5,14 +5,18 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx index.ts --watch"
+    "dev": "tsx index.ts --watch",
+    "db:push": "drizzle-kit push"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.30.3",
   "dependencies": {
+    "@libsql/client": "^0.17.0",
     "axios": "^1.13.6",
+    "dotenv": "^17.3.1",
+    "drizzle-orm": "^0.45.1",
     "puppeteer": "^24.38.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
@@ -20,6 +24,7 @@
   },
   "devDependencies": {
     "@types/node": "^25.3.5",
+    "drizzle-kit": "^0.31.9",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }

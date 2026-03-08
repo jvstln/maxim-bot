@@ -1,3 +1,4 @@
+import { saveCredential } from "./lib/db";
 import { createTempEmail, extractOtp } from "./lib/emailUtils";
 import { browserConfig, puppeteer } from "./lib/puppeteer";
 
@@ -43,6 +44,10 @@ export async function vote() {
     console.log(">> Waiting for confirmation...");
     await page.locator("::-p-text(Congratulations)").wait();
     console.log(">> Vote successful!");
+
+    // If successful, save credentials
+    await saveCredential({ address, password, token });
+    console.log("Credentials saved to DB");
 
     return { address, password, token };
   } finally {
