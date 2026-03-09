@@ -6,4 +6,7 @@ export const credentialsTable = sqliteTable("credentials", {
   password: text().notNull(),
   token: text().notNull(),
   lastUsed: int({ mode: "timestamp_ms" }).$defaultFn(() => new Date()),
+  createdAt: int({ mode: "timestamp_ms" })
+    .notNull()
+    .$defaultFn(() => new Date()),
 });
