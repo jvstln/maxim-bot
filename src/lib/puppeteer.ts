@@ -18,9 +18,8 @@ export const browserConfig: Parameters<typeof puppeteer.launch>[0] = {
   headless: "shell",
   defaultViewport: { width: 1024, height: 1080 },
   args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  ...(process.env.PUPPETEER_EXECUTABLE_PATH
-    ? { executablePath: process.env.PUPPETEER_EXECUTABLE_PATH }
-    : {}),
+  // Force the executable path so puppeteer-extra doesn't lose it via pnpm symlinks
+  executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath(),
 };
 
 export { puppeteer };

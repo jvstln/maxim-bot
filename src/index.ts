@@ -38,7 +38,7 @@ app.get("/test", (req, res) => {
   res.send("Maxim bot up server and running!");
 });
 
-app.listen(PORT, () => {
+app.listen(Number(PORT), "0.0.0.0", () => {
   console.log(`Server listening on ${PORT}`);
 });
 

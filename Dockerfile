@@ -11,8 +11,11 @@ RUN npm install -g pnpm
 # Copy only dependency files first to cache the layer
 COPY package.json pnpm-lock.yaml ./
 
-# Install dependencies (the image automatically skips downloading Chrome to save space/time)
+# Install dependencies
 RUN pnpm install
+
+# Install the exact Chrome version Puppeteer needs
+RUN npx puppeteer browsers install chrome
 
 # Copy the rest of the application
 COPY . .
@@ -29,5 +32,7 @@ USER pptruser
 EXPOSE 3000
 
 ENV PORT=3000
+# Tell Puppeteer exactly where the browser is so it doesn't get confused by pnpm
+ENV PUPPETEER_EXECUTABLE_PATH=/home/pptruser/.cache/puppeteer/chrome/linux-146.0.7680.66/chrome-linux64/chrome
 
 CMD ["pnpm", "start"]
