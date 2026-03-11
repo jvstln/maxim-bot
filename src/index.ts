@@ -3,12 +3,12 @@ import {
     startNewCredentialWorkers,
     stopNewCredentialWorkers,
     config as newCredentialsConfig,
-} from "./run-new-credentials-worker";
+} from "./run-new-credentials-worker.js";
 import {
     startExistingCredentialsWorkers,
     stopExistingCredentialsWorkers,
     config as existingCredentialsWorkers,
-} from "./run-existing-credentials-worker";
+} from "./run-existing-credentials-worker.js";
 
 const app = express();
 

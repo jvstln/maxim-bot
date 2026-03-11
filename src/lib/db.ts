@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/libsql";
 
-import { credentialsTable } from "./schema";
+import { credentialsTable } from "./schema.js";
 import { isNull, lte, or } from "drizzle-orm";
 import { createClient } from "@libsql/client";
 

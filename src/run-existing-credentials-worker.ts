@@ -1,6 +1,6 @@
-import {getUnusedCredentials} from "./lib/db";
-import {voteUsingExistingCredentials} from "./vote-using-existing-credentials";
-import {browserConfig, puppeteer} from "./lib/puppeteer";
+import {getUnusedCredentials} from "./lib/db.js";
+import {voteUsingExistingCredentials} from "./vote-using-existing-credentials.js";
+import {browserConfig, puppeteer} from "./lib/puppeteer.js";
 import type {Browser} from "puppeteer";
 
 export const config = {

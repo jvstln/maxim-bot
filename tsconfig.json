@@ -6,9 +6,9 @@
     "outDir": "./dist",
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "target": "esnext",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "target": "ESNext",
     "types": [],
     // For nodejs:
     // "lib": ["esnext"],
@@ -42,4 +42,5 @@
   "include": [
     "src/**/*"
   ]
+  // "exclude": ["drizzle.config.ts"]
 }
