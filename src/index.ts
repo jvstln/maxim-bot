@@ -2,10 +2,12 @@ import express from "express";
 import {
     startNewCredentialWorkers,
     stopNewCredentialWorkers,
+    config as newCredentialsConfig,
 } from "./run-new-credentials-worker";
 import {
     startExistingCredentialsWorkers,
     stopExistingCredentialsWorkers,
+    config as existingCredentialsWorkers,
 } from "./run-existing-credentials-worker";
 
 const app = express();
@@ -26,6 +28,10 @@ app.get("/stop", (req, res) => {
         "Workers are stopping. They will finish their current iteration and then close the browser.",
     );
 });
+
+app.get('/test', (req, res) => {
+    console.log('Maxim bot up and running!', newCredentialsConfig, existingCredentialsWorkers)
+})
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
