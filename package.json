@@ -6,6 +6,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx index.ts --watch",
+    "new-workers": "tsx src/run-new-credentials-worker.ts",
+    "existing-workers": "tsx src/run-existing-credentials-worker.ts",
+    "start": "tsx src/index.ts",
     "db:push": "drizzle-kit push"
   },
   "keywords": [],
@@ -17,12 +20,14 @@
     "axios": "^1.13.6",
     "dotenv": "^17.3.1",
     "drizzle-orm": "^0.45.1",
+    "express": "^5.2.1",
     "puppeteer": "^24.38.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^25.3.5",
     "drizzle-kit": "^0.31.9",
     "tsx": "^4.21.0",

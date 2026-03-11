@@ -2,9 +2,10 @@ import type { Credential } from "./lib/db";
 import { saveCredential } from "./lib/db";
 import type { Browser } from "puppeteer";
 
-export async function voteUsingExisitingCredentials(
+export async function voteUsingExistingCredentials(
   browser: Browser,
   credential: Credential,
+  workerId: number,
 ) {
   const { address, password } = credential;
   const context = await browser.createBrowserContext();
@@ -13,30 +14,36 @@ export async function voteUsingExisitingCredentials(
     const page = await context.newPage();
     page.setDefaultTimeout(60_000);
 
-    console.log(">> Navigating to voting page...");
+    console.log(
+      `[Existing Worker ${workerId}]: >> Navigating to voting page...`,
+    );
     await page.goto("https://covergirl.maxim.com/p/X29HF9S", {
       waitUntil: "networkidle2",
     });
 
-    console.log(">> Clicking Vote button...");
+    console.log(`[Existing Worker ${workerId}]: >> Clicking Vote button...`);
     await page.locator("button ::-p-text(Vote)").click();
 
-    console.log(">> Logging in...");
+    console.log(`[Existing Worker ${workerId}]: >> Logging in...`);
     await page.locator("button ::-p-text(Login)").click();
 
     await page.locator("input[type=email]").fill(address);
     await page.locator("input[type=password]").fill(password);
     await page.keyboard.press("Enter");
 
-    console.log(">> Waiting for confirmation...");
+    console.log(
+      `[Existing Worker ${workerId}]: >> Waiting for confirmation...`,
+    );
     await page
       .locator("::-p-text(Congratulations), ::-p-text(already cast)")
       .wait();
-    console.log(">> Vote successful!");
+    console.log(`[Existing Worker ${workerId}]: >> Vote successful!`);
 
     // Update the last_used property
     await saveCredential(credential);
-    console.log(`✅✅✅ Credential for ${address} updated`);
+    console.log(
+      `[Existing Worker ${workerId}]: >> ✅✅✅ Credential for ${address} updated`,
+    );
 
     return { address, password };
   } finally {

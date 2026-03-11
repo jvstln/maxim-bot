@@ -1,43 +1,62 @@
-import { browserConfig, puppeteer } from "./lib/puppeteer";
-import { vote } from "./vote-using-new-credentials";
-import type { Browser } from "puppeteer";
-const MAX_VOTES = Infinity;
-const CONCURRENCY = 4;
-let successfulIterationCount = 0;
-let iterationCount = 0;
+import {browserConfig, puppeteer} from "./lib/puppeteer";
+import {vote} from "./vote-using-new-credentials";
+import type {Browser} from "puppeteer";
+
+export const config = {
+    workers: [] as Promise<void>[],
+    concurrency: 3,
+    iterationCount: 0,
+    isRunning: false,
+};
 
 async function runWorkerForNewCredentials(workerId: number, browser: Browser) {
-  while (successfulIterationCount < MAX_VOTES) {
-    const currentIteration = ++iterationCount;
-    try {
-      console.log(
-        `[Worker ${workerId}] === === Starting iteration ${currentIteration} === ===`,
-      );
+    while (config.isRunning) {
+        ++config.iterationCount;
+        try {
+            console.log(
+                `[New Worker ${workerId}]: >> === === Starting iteration ${config.iterationCount} === ===`,
+            );
+            await vote(browser, workerId);
 
-      await vote(browser);
-
-      console.log(
-        `[Worker ${workerId}] === === Ending iteration ${currentIteration} === ===`,
-      );
-      successfulIterationCount++;
-    } catch (error) {
-      console.log(
-        `❌❌❌ Error: [Worker ${workerId}] Iteration ${currentIteration} Failed:`,
-        error instanceof Error ? error.message : String(error),
-      );
+            console.log(
+                `[New Worker ${workerId}]: >> === === Ending iteration ${config.iterationCount} === ===`,
+            );
+        } catch (error) {
+            console.log(
+                `[New Worker ${workerId}]: >> ❌❌❌ Error: Iteration ${config.iterationCount} Failed:`,
+                error instanceof Error ? error.message : String(error),
+            );
+        }
     }
-  }
+    console.log(`[New Worker ${workerId}]: >> Cleanly exited.`);
 }
 
-async function start() {
-  console.log(`Starting ${CONCURRENCY} concurrent workers...`);
-  const browser = await puppeteer.launch(browserConfig);
+export async function startNewCredentialWorkers() {
+    if (config.isRunning) {
+        console.log("[Main]: >> New credential workers are already running.");
+        return;
+    }
 
-  const workers = [];
-  for (let i = 1; i <= CONCURRENCY; i++) {
-    workers.push(runWorkerForNewCredentials(i, browser));
-  }
-  await Promise.all(workers);
+    config.isRunning = true;
+    console.log(
+        `[Main]: >> Starting ${config.concurrency} concurrent workers...`,
+    );
+    const browser = await puppeteer.launch(browserConfig);
+
+    config.workers = []; // Reset workers array
+    for (let i = 1; i <= config.concurrency; i++) {
+        config.workers.push(runWorkerForNewCredentials(i, browser));
+    }
+    await Promise.all(config.workers);
+
+    await browser.close();
+    console.log(
+        "[Main]: >> All new credential workers stopped and browser closed.",
+    );
 }
 
-start();
+export function stopNewCredentialWorkers() {
+    console.log("Stopping new credential workers...");
+    config.isRunning = false;
+    config.workers = []
+}
