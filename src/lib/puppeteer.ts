@@ -8,7 +8,8 @@ export const browserConfig: Parameters<typeof puppeteer.launch>[0] = {
   // defaultViewport: null,
   headless: "shell",
   defaultViewport: { width: 1024, height: 1080 },
-  // args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  ...(process.env.PUPPETEER_EXECUTABLE_PATH ? { executablePath: process.env.PUPPETEER_EXECUTABLE_PATH } : {}),
 };
 
 export { puppeteer };
