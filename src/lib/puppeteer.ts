@@ -2,15 +2,17 @@ import puppeteerExtra from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import type { PuppeteerNode } from "puppeteer";
 
+const stealthPlugin = StealthPlugin();
+stealthPlugin.enabledEvasions.delete("iframe.contentWindow");
+stealthPlugin.enabledEvasions.delete("navigator.webdriver");
+
 // puppeteer-extra@3 types are stale (missing .use, createBrowserFetcher removed in newer puppeteer).
 // Cast via any to bridge the gap.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-(puppeteerExtra as any).use(StealthPlugin());
+(puppeteerExtra as any).use(stealthPlugin);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const puppeteer = puppeteerExtra as unknown as PuppeteerNode;
-
-(puppeteer as any).use(StealthPlugin());
 
 export const browserConfig: Parameters<typeof puppeteer.launch>[0] = {
   // headless: false,
