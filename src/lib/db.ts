@@ -6,6 +6,7 @@ import { createClient } from "@libsql/client";
 
 const client = createClient({
   url: process.env.DB_FILE_NAME || "file:./local.db",
+  ...(process.env.DB_AUTH_TOKEN ? { authToken: process.env.DB_AUTH_TOKEN } : {}),
 });
 
 export const db = drizzle({ client, casing: "snake_case" });
