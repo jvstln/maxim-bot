@@ -4,7 +4,7 @@ import { vote } from "./vote-using-new-credentials.js";
 
 export const config = {
   workers: [] as Promise<void>[],
-  concurrency: 1,
+  concurrency: 2,
   iterationCount: 0,
   isRunning: false,
 };

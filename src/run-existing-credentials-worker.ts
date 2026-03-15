@@ -5,7 +5,7 @@ import { voteUsingExistingCredentials } from "./vote-using-existing-credentials.
 
 export const config = {
   workers: [] as Promise<void>[],
-  concurrency: 2,
+  concurrency: 5,
   isRunning: false,
 };
 
