@@ -1,6 +1,6 @@
+import type { Browser } from "puppeteer";
 import { browserConfig, puppeteer } from "./lib/puppeteer.js";
 import { vote } from "./vote-using-new-credentials.js";
-import type { Browser } from "puppeteer";
 
 export const config = {
   workers: [] as Promise<void>[],

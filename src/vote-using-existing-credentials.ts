@@ -1,5 +1,5 @@
 import type { Browser } from "puppeteer";
-import { saveCredential, type Credential } from "./lib/db.js";
+import { type Credential, saveCredential } from "./lib/db.js";
 
 export async function voteUsingExistingCredentials(
   browser: Browser,

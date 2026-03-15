@@ -1,12 +1,13 @@
-import { drizzle } from "drizzle-orm/libsql";
-
-import { credentialsTable } from "./schema.js";
-import { isNull, lte, or } from "drizzle-orm";
 import { createClient } from "@libsql/client";
+import { isNull, lte, or } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/libsql";
+import { credentialsTable } from "./schema.js";
 
 const client = createClient({
   url: process.env.DB_FILE_NAME || "file:./local.db",
-  ...(process.env.DB_AUTH_TOKEN ? { authToken: process.env.DB_AUTH_TOKEN } : {}),
+  ...(process.env.DB_AUTH_TOKEN
+    ? { authToken: process.env.DB_AUTH_TOKEN }
+    : {}),
 });
 
 export const db = drizzle({ client, casing: "snake_case" });

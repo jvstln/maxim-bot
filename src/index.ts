@@ -1,26 +1,28 @@
 import express from "express";
+import { db, getUnusedCredentials } from "./lib/db.js";
+import { credentialsTable } from "./lib/schema.js";
 import {
-  startNewCredentialWorkers,
-  stopNewCredentialWorkers,
-  config as newCredentialsConfig,
-} from "./run-new-credentials-worker.js";
-import {
+  config as existingCredentialsWorkers,
   startExistingCredentialsWorkers,
   stopExistingCredentialsWorkers,
-  config as existingCredentialsWorkers,
 } from "./run-existing-credentials-worker.js";
+import {
+  config as newCredentialsConfig,
+  startNewCredentialWorkers,
+  stopNewCredentialWorkers,
+} from "./run-new-credentials-worker.js";
 
 const app = express();
 
-let PORT = process.env.PORT ?? 3000;
+const PORT = process.env.PORT ?? 3000;
 
-app.get("/start", (req, res) => {
+app.get("/start", (_req, res) => {
   res.send("Bot start request received!");
   startNewCredentialWorkers();
   startExistingCredentialsWorkers();
 });
 
-app.get("/stop", (req, res) => {
+app.get("/stop", (_req, res) => {
   stopNewCredentialWorkers();
   stopExistingCredentialsWorkers();
 
@@ -29,7 +31,17 @@ app.get("/stop", (req, res) => {
   );
 });
 
-app.get("/test", (req, res) => {
+app.get("/db-status", async (_req, res) => {
+  const allCredentials = await db.select().from(credentialsTable);
+  const unusedCredentials = await getUnusedCredentials();
+
+  res.json({
+    totalCredentials: allCredentials.length,
+    unusedCredentials: unusedCredentials.length,
+  });
+});
+
+app.get("/test", (_req, res) => {
   console.log(
     "Maxim bot up and running!",
     newCredentialsConfig,

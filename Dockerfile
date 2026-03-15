@@ -15,7 +15,7 @@ COPY package.json pnpm-lock.yaml ./
 RUN pnpm install
 
 # Install the exact Chrome version Puppeteer needs
-RUN npx puppeteer browsers install chrome
+#RUN npx puppeteer browsers install chrome
 
 # Copy the rest of the application
 COPY . .

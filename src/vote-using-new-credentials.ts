@@ -1,6 +1,6 @@
+import type { Browser } from "puppeteer";
 import { saveCredential } from "./lib/db.js";
 import { createTempEmail, extractOtp } from "./lib/email.util.js";
-import type { Browser } from "puppeteer";
 
 export async function vote(browser: Browser, workerId: number) {
   const context = await browser.createBrowserContext();

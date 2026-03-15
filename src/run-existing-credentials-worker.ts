@@ -1,7 +1,7 @@
-import { getUnusedCredentials } from "./lib/db.js";
-import { voteUsingExistingCredentials } from "./vote-using-existing-credentials.js";
-import { browserConfig, puppeteer } from "./lib/puppeteer.js";
 import type { Browser } from "puppeteer";
+import { getUnusedCredentials } from "./lib/db.js";
+import { browserConfig, puppeteer } from "./lib/puppeteer.js";
+import { voteUsingExistingCredentials } from "./vote-using-existing-credentials.js";
 
 export const config = {
   workers: [] as Promise<void>[],

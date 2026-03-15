@@ -5,7 +5,7 @@ async function run() {
   const account = await createTempEmail();
   console.log("Account created:", account.address);
   console.log("Password:", account.password);
-  console.log("Token:", account.token?.substring(0, 20) + "...");
+  console.log("Token:", `${account.token?.substring(0, 20)}...`);
 
   console.log(
     '\nNow waiting for OTP... (Send an email with a code like "Here is your code: 123456" to this address to test)',

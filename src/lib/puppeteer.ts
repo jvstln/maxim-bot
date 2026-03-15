@@ -1,6 +1,6 @@
+import type { PuppeteerNode } from "puppeteer";
 import puppeteerExtra from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
-import type { PuppeteerNode } from "puppeteer";
 
 const stealthPlugin = StealthPlugin();
 stealthPlugin.enabledEvasions.delete("iframe.contentWindow");
@@ -21,7 +21,8 @@ export const browserConfig: Parameters<typeof puppeteer.launch>[0] = {
   defaultViewport: { width: 1024, height: 1080 },
   args: ["--no-sandbox", "--disable-setuid-sandbox"],
   // Force the executable path so puppeteer-extra doesn't lose it via pnpm symlinks
-  executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath(),
+  executablePath:
+    process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath(),
 };
 
 export { puppeteer };

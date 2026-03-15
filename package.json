@@ -8,6 +8,7 @@
     "dev": "tsx index.ts --watch",
     "build": "tsc",
     "start": "node dist/index.js",
+    "check": "biome check --write",
     "new-workers": "tsx src/run-new-credentials-worker.ts",
     "existing-workers": "tsx src/run-existing-credentials-worker.ts",
     "db:push": "drizzle-kit push"
@@ -28,6 +29,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.6",
     "@types/express": "^5.0.6",
     "@types/node": "^25.3.5",
     "drizzle-kit": "^0.31.9",
